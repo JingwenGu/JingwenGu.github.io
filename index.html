@@ -2,36 +2,248 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Your Name</title>
+  <title>Jingwen Gu</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 40px; }
-    h1 { color: #333; }
-    nav a { margin: 0 10px; }
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      margin: 0; 
+      padding: 0;
+      line-height: 1.6;
+      color: #333;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    h1 { 
+      color: #2c3e50; 
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    
+    .overview-section {
+      display: flex;
+      align-items: flex-start;
+      gap: 30px;
+      margin-bottom: 40px;
+      padding: 20px 0;
+    }
+    
+    .overview-text {
+      flex: 2;
+    }
+    
+    .portrait {
+      flex: 1;
+      text-align: center;
+    }
+    
+    .portrait img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #3498db;
+    }
+    
+    .contact-band {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    
+    .contact-band a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      padding: 8px 16px;
+      border: 2px solid white;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+    
+    .contact-band a:hover {
+      background: white;
+      color: #3498db;
+    }
+    
+    .section {
+      margin-bottom: 40px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      border-left: 4px solid #3498db;
+    }
+    
+    h2 { 
+      color: #2c3e50; 
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .news-item {
+      background: white;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border-left: 3px solid #e74c3c;
+    }
+    
+    .news-date {
+      color: #7f8c8d;
+      font-size: 0.9em;
+      font-weight: bold;
+    }
+    
+    .publication-item, .workshop-item, .project-item {
+      background: white;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border-left: 3px solid #27ae60;
+    }
+    
+    .publication-title, .workshop-title, .project-title {
+      font-weight: bold;
+      color: #2c3e50;
+      margin-bottom: 8px;
+    }
+    
+    .publication-authors, .workshop-authors {
+      color: #7f8c8d;
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    
+    .publication-venue, .workshop-venue {
+      color: #27ae60;
+      font-weight: bold;
+    }
+    
+    .project-description {
+      color: #555;
+      margin-top: 8px;
+    }
+    
+    a {
+      color: #3498db;
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
-  <h1>Your Name</h1>
-  <p>CS Student | Aspiring Researcher in AI/ML</p>
-  <nav>
-    <a href="#about">About</a> |
-    <a href="#projects">Projects</a> |
-    <a href="#cv">CV</a> |
-    <a href="#contact">Contact</a>
-  </nav>
+  <div class="container">
+    <!-- 1. Name at the top -->
+    <div class="header">
+      <h1>Jingwen Gu</h1>
+    </div>
 
-  <h2 id="about">About</h2>
-  <p>I am a computer science student interested in AI, machine learning, robotics, and cryptography...</p>
+    <!-- 2. Overview with portrait photo -->
+    <div class="overview-section">
+      <div class="overview-text">
+        <p>I am a computer science student passionate about artificial intelligence, machine learning, robotics, and cryptography. My research interests lie at the intersection of these fields, where I explore innovative approaches to solve complex real-world problems.</p>
+        <p>Currently, I'm working on developing robust machine learning algorithms for autonomous systems and investigating the applications of AI in cybersecurity. I believe in the power of interdisciplinary research and its potential to drive technological advancement.</p>
+      </div>
+      <div class="portrait">
+        <img src="portrait.jpg" alt="Jingwen Gu Portrait" onerror="this.style.display='none'">
+        <p><em>Portrait photo</em></p>
+      </div>
+    </div>
 
-  <h2 id="projects">Projects</h2>
-  <ul>
-    <li><a href="https://github.com/yourusername/project1">Project 1</a> – short description</li>
-    <li><a href="https://github.com/yourusername/project2">Project 2</a> – short description</li>
-  </ul>
+    <!-- 3. Contact links band -->
+    <div class="contact-band">
+      <a href="mailto:youremail@domain.com">📧 Email</a>
+      <a href="https://scholar.google.com/citations?user=YOUR_ID" target="_blank">🎓 Google Scholar</a>
+      <a href="https://github.com/yourusername" target="_blank">💻 GitHub</a>
+      <a href="cv.pdf" target="_blank">📄 CV</a>
+    </div>
 
-  <h2 id="cv">CV</h2>
-  <p><a href="cv.pdf">Download my CV</a></p>
+    <!-- 4. News section -->
+    <div class="section">
+      <h2>📰 News</h2>
+      <div class="news-item">
+        <div class="news-date">December 2024</div>
+        <p>Paper accepted at [Conference Name] 2024!</p>
+      </div>
+      <div class="news-item">
+        <div class="news-date">November 2024</div>
+        <p>Presented our work on [Research Topic] at [Workshop/Conference].</p>
+      </div>
+      <div class="news-item">
+        <div class="news-date">October 2024</div>
+        <p>Started new research collaboration with [Institution/Researcher].</p>
+      </div>
+    </div>
 
-  <h2 id="contact">Contact</h2>
-  <p>Email: youremail@domain.com</p>
+    <!-- 5. Publications list -->
+    <div class="section">
+      <h2>📚 Publications</h2>
+      <div class="publication-item">
+        <div class="publication-title">Title of Your First Paper</div>
+        <div class="publication-authors">Jingwen Gu, Co-author Name, Another Author</div>
+        <div class="publication-venue">Conference/Journal Name, 2024</div>
+        <p><a href="https://github.com/yourusername/paper1" target="_blank">[PDF]</a> | <a href="https://github.com/yourusername/code1" target="_blank">[Code]</a></p>
+      </div>
+      <div class="publication-item">
+        <div class="publication-title">Title of Your Second Paper</div>
+        <div class="publication-authors">Jingwen Gu, Collaborator Name</div>
+        <div class="publication-venue">Journal Name, 2023</div>
+        <p><a href="https://github.com/yourusername/paper2" target="_blank">[PDF]</a> | <a href="https://github.com/yourusername/code2" target="_blank">[Code]</a></p>
+      </div>
+    </div>
+
+    <!-- 6. Workshop papers list -->
+    <div class="section">
+      <h2>🔬 Workshop Papers</h2>
+      <div class="workshop-item">
+        <div class="workshop-title">Workshop Paper Title</div>
+        <div class="workshop-authors">Jingwen Gu, Workshop Co-author</div>
+        <div class="workshop-venue">Workshop Name @ Conference, 2024</div>
+        <p><a href="https://github.com/yourusername/workshop1" target="_blank">[PDF]</a></p>
+      </div>
+      <div class="workshop-item">
+        <div class="workshop-title">Another Workshop Contribution</div>
+        <div class="workshop-authors">Jingwen Gu</div>
+        <div class="workshop-venue">Workshop Name, 2023</div>
+        <p><a href="https://github.com/yourusername/workshop2" target="_blank">[PDF]</a></p>
+      </div>
+    </div>
+
+    <!-- 7. Project list -->
+    <div class="section">
+      <h2>🚀 Projects</h2>
+      <div class="project-item">
+        <div class="project-title">AI-Powered Autonomous Navigation System</div>
+        <div class="project-description">Developed a reinforcement learning-based navigation system for autonomous robots using PyTorch and ROS. The system achieves 95% success rate in complex environments.</div>
+        <p><a href="https://github.com/yourusername/autonomous-nav" target="_blank">[GitHub]</a> | <a href="https://github.com/yourusername/autonomous-nav-demo" target="_blank">[Demo]</a></p>
+      </div>
+      <div class="project-item">
+        <div class="project-title">Cryptographic Protocol Implementation</div>
+        <div class="project-description">Implemented and analyzed various cryptographic protocols including zero-knowledge proofs and secure multi-party computation protocols.</div>
+        <p><a href="https://github.com/yourusername/crypto-protocols" target="_blank">[GitHub]</a></p>
+      </div>
+      <div class="project-item">
+        <div class="project-title">Machine Learning Model Compression</div>
+        <div class="project-description">Research on model pruning and quantization techniques to reduce neural network size while maintaining performance.</div>
+        <p><a href="https://github.com/yourusername/model-compression" target="_blank">[GitHub]</a> | <a href="https://github.com/yourusername/model-compression-paper" target="_blank">[Paper]</a></p>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
