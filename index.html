@@ -47,11 +47,30 @@
       width: 250px;
     }
     
+    .portrait-slot {
+      display: inline-block;
+      position: relative;
+      width: 200px;
+      height: 200px;
+    }
+
     .portrait img {
       width: 200px;
       height: 200px;
       border-radius: 50%;
       object-fit: cover;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .portrait img.is-flying {
+      position: fixed;
+      margin: 0;
+      z-index: 999;
+      will-change: transform, left, top;
+      box-shadow: 0 8px 28px rgba(17, 35, 88, 0.3);
     }
     
     .section {
@@ -197,7 +216,9 @@
       </p>
       </td>
       <td class="portrait">
-        <img src="portrait3.jpeg" alt="Jingwen Gu Portrait" onerror="this.style.display='none'">
+        <div class="portrait-slot">
+          <img id="portrait" src="portrait3.jpeg" alt="Jingwen Gu Portrait" title="Click me!" onerror="this.style.display='none'">
+        </div>
       </td>
     </tr>
     
@@ -304,5 +325,162 @@
       </td>
     </tr>
   </table>
+
+  <script>
+  (function () {
+    var img = document.getElementById('portrait');
+    if (!img) return;
+    var slot = img.parentNode;
+
+    var IDLE = 0, SPIN = 1, FLY = 2, RETURN = 3;
+    var state = IDLE;
+
+    var SPIN_SPEED = 150;   // degrees per second
+    var SPEED = 95;         // pixels per second while drifting
+    var RETURN_DUR = 0.9;   // seconds to glide home
+
+    var angle = 0;
+    var vx = 0, vy = 0;
+    var x = 0, y = 0;       // viewport coords of the top-left while flying
+    var size = 200;
+    var raf = null, last = 0;
+    var homing = null;
+
+    function slotRect() {
+      return slot.getBoundingClientRect();
+    }
+
+    function start() {
+      last = 0;
+      if (raf === null) raf = requestAnimationFrame(tick);
+    }
+
+    function stop() {
+      if (raf !== null) cancelAnimationFrame(raf);
+      raf = null;
+    }
+
+    function render() {
+      if (img.classList.contains('is-flying')) {
+        img.style.left = x + 'px';
+        img.style.top = y + 'px';
+      }
+      img.style.transform = 'rotate(' + angle + 'deg)';
+    }
+
+    // Reflect off the wall we just touched, then nudge the heading so every
+    // bounce sends the portrait off somewhere new.
+    function bounce(axis) {
+      var rvx = axis === 'x' ? -vx : vx;
+      var rvy = axis === 'y' ? -vy : vy;
+      var a = Math.atan2(rvy, rvx) + (Math.random() - 0.5) * 0.9;
+      var nvx = Math.cos(a) * SPEED;
+      var nvy = Math.sin(a) * SPEED;
+      var minN = SPEED * 0.25;
+      if (axis === 'x') {
+        var sx = rvx < 0 ? -1 : 1;
+        if (Math.abs(nvx) < minN || (nvx < 0) !== (sx < 0)) nvx = minN * sx;
+      } else {
+        var sy = rvy < 0 ? -1 : 1;
+        if (Math.abs(nvy) < minN || (nvy < 0) !== (sy < 0)) nvy = minN * sy;
+      }
+      var m = Math.sqrt(nvx * nvx + nvy * nvy) || SPEED;
+      vx = nvx / m * SPEED;
+      vy = nvy / m * SPEED;
+    }
+
+    function liftOff() {
+      var r = slotRect();
+      size = r.width || 200;
+      x = r.left;
+      y = r.top;
+      img.classList.add('is-flying');
+      img.style.width = size + 'px';
+      img.style.height = size + 'px';
+      img.style.left = x + 'px';
+      img.style.top = y + 'px';
+      var diagonals = [0.6, 2.5, 3.8, 5.7];
+      var a = diagonals[Math.floor(Math.random() * diagonals.length)] +
+              (Math.random() - 0.5) * 0.4;
+      vx = Math.cos(a) * SPEED;
+      vy = Math.sin(a) * SPEED;
+    }
+
+    function land() {
+      img.classList.remove('is-flying');
+      img.style.left = '';
+      img.style.top = '';
+      img.style.width = '';
+      img.style.height = '';
+      img.style.transform = '';
+      angle = 0;
+      homing = null;
+      state = IDLE;
+      stop();
+    }
+
+    function tick(now) {
+      raf = null;
+      if (!last) last = now;
+      var dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
+
+      if (state === SPIN) {
+        angle += SPIN_SPEED * dt;
+      } else if (state === FLY) {
+        angle += SPIN_SPEED * dt;
+        x += vx * dt;
+        y += vy * dt;
+        var maxX = Math.max(window.innerWidth - size, 0);
+        var maxY = Math.max(window.innerHeight - size, 0);
+        if (x <= 0 && vx < 0) { x = 0; bounce('x'); }
+        else if (x >= maxX && vx > 0) { x = maxX; bounce('x'); }
+        if (y <= 0 && vy < 0) { y = 0; bounce('y'); }
+        else if (y >= maxY && vy > 0) { y = maxY; bounce('y'); }
+        if (x > maxX) x = maxX;
+        if (y > maxY) y = maxY;
+        if (x < 0) x = 0;
+        if (y < 0) y = 0;
+      } else if (state === RETURN) {
+        homing.t += dt;
+        var p = Math.min(homing.t / RETURN_DUR, 1);
+        var e = 1 - Math.pow(1 - p, 3);
+        var home = slotRect();
+        x = homing.x0 + (home.left - homing.x0) * e;
+        y = homing.y0 + (home.top - homing.y0) * e;
+        angle = homing.a0 + (homing.a1 - homing.a0) * e;
+        if (p >= 1) { land(); return; }
+      }
+
+      render();
+      raf = requestAnimationFrame(tick);
+    }
+
+    img.addEventListener('dragstart', function (e) { e.preventDefault(); });
+
+    img.addEventListener('click', function () {
+      if (state === IDLE) {
+        state = SPIN;
+        start();
+      } else if (state === SPIN) {
+        liftOff();
+        state = FLY;
+        start();
+      } else if (state === FLY) {
+        homing = {
+          t: 0,
+          x0: x,
+          y0: y,
+          a0: angle,
+          a1: Math.ceil(angle / 360) * 360  // settle upright, still turning forward
+        };
+        state = RETURN;
+        start();
+      } else {
+        land();  // impatient click mid-return: snap home
+      }
+    });
+  })();
+  </script>
 </body>
 </html>
